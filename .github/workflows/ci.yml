@@ -23,6 +23,14 @@ jobs:
       - name: Build e test
         run: ./mvnw -B verify
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: hadolint/hadolint-action@v3.5.0
+        with:
+          dockerfile: Dockerfile_v2
+
   docker:
     needs: build-test
     if: github.event_name != 'pull_request'
