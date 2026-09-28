@@ -47,3 +47,29 @@ jobs:
           exit-code: true
       - name: Push su Docker Hub
         run: docker push --all-tags "$IMAGE"
+
+  pages:
+    needs: docker
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Compila la pagina
+        run: |
+          sed -i "s|__SHA__|${GITHUB_SHA:0:7}|g" site/index.html
+          sed -i "s|__ACTOR__|$GITHUB_ACTOR|g" site/index.html
+          sed -i "s|__DATE__|$(date -u '+%d/%m/%Y %H:%M UTC')|g" site/index.html
+          sed -i "s|__IMAGE__|$IMAGE|g" site/index.html
+          sed -i "s|__RUN_URL__|$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|g" site/index.html
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v5

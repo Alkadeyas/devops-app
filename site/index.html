@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>devops-app</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+    h1 { color: #EF4350; }
+    code { background: #F3F4F6; padding: 2px 6px; }
+  </style>
+</head>
+<body>
+  <h1>devops-app è online</h1>
+  <p>Pagina pubblicata dalla pipeline CI/CD.</p>
+  <ul>
+    <li>Commit: <code>__SHA__</code></li>
+    <li>Autore: __ACTOR__</li>
+    <li>Data: __DATE__</li>
+    <li>Immagine: <code>__IMAGE__:main</code></li>
+    <li><a href="__RUN_URL__">Log della pipeline</a></li>
+  </ul>
+  <p>Per provare l'immagine: <code>docker run --rm -p 8080:8080 __IMAGE__:main</code></p>
+</body>
+</html>
