@@ -7,8 +7,8 @@ RUN mvn clean package -DskipTests
 # ----- Stage 2: runtime -----
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-RUN addgroup -S app && adduser -S pippo -G app
+RUN addgroup -S app && adduser -S -u 10001 pippo -G app
 COPY --from=builder /app/target/devops-app-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-USER pippo
+USER 10001
 CMD ["java","-jar","app.jar"]
